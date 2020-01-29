@@ -5,7 +5,7 @@ import axios from 'axios';
 export default () => {
     const { id } = useParams();
     const initialValue = {
-        id: id,
+        id: parseInt(id),
         title: '',
         director: '',
         metascore: '',
@@ -20,18 +20,16 @@ export default () => {
 
     useEffect(() => {
         //get movie info to populate inputs when form is first loaded
-        console.log('This is id in useEffect', id);
         axios
             .get(`http://localhost:5000/api/movies/${id}`)
             .then(res => {
                 let gotMovie = {
-                    id: id,
+                    id: parseInt(id),
                     title: res.data.title,
                     director: res.data.director,
                     metascore: res.data.metascore,
                     stars: res.data.stars.reduce((acc, cur) => `${acc}, ${cur}`)
                 };
-                console.log('This is gotMovie inside UpdatMovieForm useEffect', gotMovie);
                 setMovie(gotMovie);
             })
             .catch(err => console.log(err.response));
